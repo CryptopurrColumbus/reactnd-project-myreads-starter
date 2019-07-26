@@ -1,6 +1,6 @@
 import React from 'react';
 import SearchBooks from './pages/Search-books';
-import ListBooks from './pages/List-books';
+import ListBooks from './containers/List-books';
 // import * as BooksAPI from './BooksAPI'
 import './App.css';
 import { Route, Switch } from 'react-router-dom';
