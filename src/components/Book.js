@@ -2,22 +2,6 @@ import React from 'react';
 import List from './List';
 
 const Book = props => {
-  console.log(props.book);
-	// constructor(props) {
-	//   super(props);
-
-	//   this.state ={
-	//     selected:"currentlyReading"
-	//   }
-
-	// 	this.myMethod = this.myMethod.bind(this);
-	// }
-	// myMethod(e) {
-	// 	this.setState({
-	// 		selected: e.currentTarget.value
-	// 	});
-	// }
-
 	return (
 		<div className="book">
 			<div className="book-top">
@@ -30,8 +14,7 @@ const Book = props => {
 					}}
 				/>
 				<div className="book-shelf-changer">
-          <List />
-          {/* select={this.myMethod} selected={this.state.selected}  */}
+					<List movebook={props.movebook} rstate={props.book.readstate} />
 				</div>
 			</div>
 			<div className="book-title">{props.book.title}</div>

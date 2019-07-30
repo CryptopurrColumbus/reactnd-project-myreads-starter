@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import Title from '../components/Title';
 import Bookshelf from '../components/Bookshelf';
 class ListBooks extends React.Component {
-	constructor(props) {
-		super(props);
-		this.books = [
+	movebook = this.movebook.bind(this);
+
+	state = {
+		books: [
 			{
 				author: 'Harper Lee',
 				title: 'To Kill a Mockingbird',
@@ -55,16 +56,33 @@ class ListBooks extends React.Component {
 					'http://books.google.com/books/content?id=32haAAAAMAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72yckZ5f5bDFVIf7BGPbjA0KYYtlQ__nWB-hI_YZmZ-fScYwFy4O_fWOcPwf-pgv3pPQNJP_sT5J_xOUciD8WaKmevh1rUR-1jk7g1aCD_KeJaOpjVu0cm_11BBIUXdxbFkVMdi&source=gbs_api',
 				readstate: 'read'
 			}
-		];
-		this.state = {
+		],
+		currentlyReading: [],
+		wantToRead: [],
+		read: []
+	};
+
+	segregator(status) {
+		return this.state.books.filter(book => book.readstate === status);
+	}
+
+	componentDidMount() {
+		this.setState({
 			currentlyReading: this.segregator('currentlyReading'),
 			wantToRead: this.segregator('wantToRead'),
 			read: this.segregator('read')
-		};
+		});
 	}
 
-	segregator(status) {
-		return this.books.filter(book => book.readstate === status);
+	movebook(e) {
+		let paretn = e.target.parentNode.parentNode.nextElementSibling;
+		let m = this.state.books.filter(book => book.title === paretn.innerText);
+		m[0].readstate = e.target.value;
+		this.setState({
+			currentlyReading: this.segregator('currentlyReading'),
+			wantToRead: this.segregator('wantToRead'),
+			read: this.segregator('read')
+		});
 	}
 
 	render() {
@@ -74,10 +92,21 @@ class ListBooks extends React.Component {
 					<Title heading="MyReads" />
 					<div className="list-books-content">
 						<div>
-							<Bookshelf title="Currently Reading" books= {this.state.currentlyReading} />
-							<Bookshelf title="Want to Read" books={this.state.wantToRead}/>
-							<Bookshelf title="Read" books={this.state.read}/>
-						
+							<Bookshelf
+								title="Currently Reading"
+								books={this.state.currentlyReading}
+								movebook={this.movebook}
+							/>
+							<Bookshelf
+								title="Want to Read"
+								books={this.state.wantToRead}
+								movebook={this.movebook}
+							/>
+							<Bookshelf
+								title="Read"
+								books={this.state.read}
+								movebook={this.movebook}
+							/>
 						</div>
 					</div>
 					<div className="open-search">
